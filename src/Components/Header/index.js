@@ -1,7 +1,5 @@
 import React from 'react';
 
-import Icon from 'react-native-vector-icons/MaterialIcons';
-
 import { Container, Logo, Wrapper, ItemCount, BasketContainer } from './styles';
 
 function Header({ navigation }) {
