@@ -13,7 +13,7 @@ import {
 } from './styles';
 
 import api from '../../services/api';
-
+import { formatPrice } from '../../util/format';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 export default class Main extends Component {
@@ -22,7 +22,6 @@ export default class Main extends Component {
   };
 
   componentDidMount() {
-    console.tron.log(this.props);
     this.getProducts();
   }
 
