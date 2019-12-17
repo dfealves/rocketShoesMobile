@@ -5,9 +5,16 @@ import {
   ProductImage,
   ProductTitle,
   ProductPrice,
+  ProductList,
+  AddButton,
+  ButtonText,
+  Amount,
+  AmountText,
 } from './styles';
 
 import api from '../../services/api';
+
+import Icon from 'react-native-vector-icons/AntDesign';
 
 export default class Main extends Component {
   state = {
@@ -15,6 +22,7 @@ export default class Main extends Component {
   };
 
   componentDidMount() {
+    console.tron.log(this.props);
     this.getProducts();
   }
 
@@ -29,16 +37,27 @@ export default class Main extends Component {
     this.setState({ products: data });
   };
 
-  renderProduct = ({ item }) => {
-    const { amount } = this.props;
+  handleAddProduct = () => {
+    const { navigation } = this.props;
 
-    const { products } = this.state;
+    navigation.navigate('Cart');
+  };
+
+  renderProduct = ({ item }) => {
+    // const { amount } = this.props;
 
     return (
       <Product key={item.id}>
         <ProductImage source={{ uri: item.image }} />
         <ProductTitle>{item.title}</ProductTitle>
         <ProductPrice>{item.price}</ProductPrice>
+        <AddButton onPress={() => this.handleAddProduct(item.id)}>
+          <Amount>
+            <Icon name="shoppingcart" color="#FFF" size={20} />
+            <AmountText>2</AmountText>
+          </Amount>
+          <ButtonText>ADICIONAR</ButtonText>
+        </AddButton>
       </Product>
     );
   };
@@ -47,13 +66,12 @@ export default class Main extends Component {
     const { products } = this.state;
     return (
       <Container>
-        {/* <FlatList
+        <ProductList
           horizontal
           data={products}
-          extraData={this.props}
           keyExtractor={item => String(item.id)}
           renderItem={this.renderProduct}
-        /> */}
+        />
       </Container>
     );
   }

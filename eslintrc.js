@@ -2,7 +2,7 @@ module.exports = {
   env: {
     es6: true,
   },
-  extends: ['plugin:react/recommended', 'airbnb', 'prettier', 'prettier/react'],
+  extends: ['airbnb', 'prettier', 'prettier/react'],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
@@ -19,6 +19,8 @@ module.exports = {
   plugins: ['react', 'prettier'],
   rules: {
     'prettier/prettier': 'error',
+    'react/state-in-constructor': 'off',
+    'react/jsx-props-no-spreading': 'off',
     'react/jsx-filename-extension': [
       'warn',
       {
@@ -26,5 +28,7 @@ module.exports = {
       },
     ],
     'import/prefer-default-export': 'off',
+    'no-param-reassign': 'off',
+    'no-console': ['error', { allow: ['tron'] }],
   },
 };
