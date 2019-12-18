@@ -5,7 +5,7 @@ export const Container = styled.View`
   padding: 10px;
   background: #fff;
   border-radius: 4px;
-  margin: 15px;
+  margin: 150px 15px;
 `;
 
 export const Products = styled.View``;

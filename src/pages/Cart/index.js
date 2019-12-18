@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import api from '../../services/api';
 
@@ -28,7 +29,7 @@ import {
   EmptyText,
 } from './styles';
 
-export default function Cart({ navigation, products, total }) {
+function Cart({ cart, navigation, products, total }) {
   function decrement(product) {
     updateAmountRequest(product.id, product.amount - 1);
   }
@@ -42,38 +43,46 @@ export default function Cart({ navigation, products, total }) {
       {/* {products.length ? ( */}
       <>
         <Products>
-          {/* {products.map(product => ( */}
-          <Product>
-            <ProductInfo>
-              <ProductImage source="https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg" />
-              <ProductDetails>
-                <ProductTitle>Tênis de Caminhada Leve Confortável</ProductTitle>
-                <ProductPrice>R$</ProductPrice>
-              </ProductDetails>
-              <ProductDelete onPress={() => removeFromCart(product.id)}>
-                <Icon name="delete-forever" size={24} color={colors.primary} />
-              </ProductDelete>
-            </ProductInfo>
-            <ProductControls>
-              <ProductControlButton onPress={() => decrement(product)}>
-                <Icon
-                  name="remove-circle-outline"
-                  size={20}
-                  color={colors.primary}
+          {cart.map(product => (
+            <Product>
+              <ProductInfo>
+                <ProductImage
+                  source={{
+                    uri: product.image,
+                  }}
                 />
-              </ProductControlButton>
-              <ProductAmount value={3} />
-              <ProductControlButton onPress={() => increment(product)}>
-                <Icon
-                  name="add-circle-outline"
-                  size={20}
-                  color={colors.primary}
-                />
-              </ProductControlButton>
-              <ProductSubtotal>R$999,99</ProductSubtotal>
-            </ProductControls>
-          </Product>
-          )
+                <ProductDetails>
+                  <ProductTitle>product.title</ProductTitle>
+                  <ProductPrice>product.priceFormatted</ProductPrice>
+                </ProductDetails>
+                <ProductDelete onPress={() => removeFromCart(product.id)}>
+                  <Icon
+                    name="delete-forever"
+                    size={24}
+                    color={colors.primary}
+                  />
+                </ProductDelete>
+              </ProductInfo>
+              <ProductControls>
+                <ProductControlButton onPress={() => decrement(product)}>
+                  <Icon
+                    name="remove-circle-outline"
+                    size={20}
+                    color={colors.primary}
+                  />
+                </ProductControlButton>
+                <ProductAmount>3</ProductAmount>
+                <ProductControlButton onPress={() => increment(product)}>
+                  <Icon
+                    name="add-circle-outline"
+                    size={20}
+                    color={colors.primary}
+                  />
+                </ProductControlButton>
+                <ProductSubtotal>R$999,99</ProductSubtotal>
+              </ProductControls>
+            </Product>
+          ))}
         </Products>
         <TotalContainer>
           <TotalText>TOTAL</TotalText>
@@ -92,3 +101,10 @@ export default function Cart({ navigation, products, total }) {
     </Container>
   );
 }
+
+const mapStateToProps = state => ({
+  //vai obter informações do nosso state e mapear em formato de propriedade por componente
+  cart: state.cart,
+});
+
+export default connect(mapStateToProps)(Cart);

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   Container,
   Product,
@@ -13,10 +14,11 @@ import {
 } from './styles';
 
 import api from '../../services/api';
-import { formatPrice } from '../../util/format';
-import Icon from 'react-native-vector-icons/AntDesign';
 
-export default class Main extends Component {
+import { formatPrice } from '../../util/format';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
+class Main extends Component {
   state = {
     products: [],
   };
@@ -30,16 +32,19 @@ export default class Main extends Component {
 
     const data = response.data.map(product => ({
       ...product,
-      price: product.price,
+      priceFormatted: formatPrice(product.price),
     }));
 
     this.setState({ products: data });
   };
 
-  handleAddProduct = () => {
-    const { navigation } = this.props;
+  handleAddProduct = product => {
+    const { dispatch } = this.props;
 
-    navigation.navigate('Cart');
+    dispatch({
+      type: 'ADD_TO_CART',
+      product,
+    });
   };
 
   renderProduct = ({ item }) => {
@@ -49,10 +54,10 @@ export default class Main extends Component {
       <Product key={item.id}>
         <ProductImage source={{ uri: item.image }} />
         <ProductTitle>{item.title}</ProductTitle>
-        <ProductPrice>{item.price}</ProductPrice>
-        <AddButton onPress={() => this.handleAddProduct(item.id)}>
+        <ProductPrice>{item.priceFormatted}</ProductPrice>
+        <AddButton onPress={() => this.handleAddProduct(item)}>
           <Amount>
-            <Icon name="shoppingcart" color="#FFF" size={20} />
+            <Icon name="add-shopping-cart" color="#FFF" size={20} />
             <AmountText>2</AmountText>
           </Amount>
           <ButtonText>ADICIONAR</ButtonText>
@@ -75,3 +80,5 @@ export default class Main extends Component {
     );
   }
 }
+
+export default connect()(Main);
