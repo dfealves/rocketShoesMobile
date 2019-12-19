@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
   Container,
   Product,
@@ -14,6 +16,8 @@ import {
 } from './styles';
 
 import api from '../../services/api';
+
+import * as CartActions from '../../store/modules/cart/actions';
 
 import { formatPrice } from '../../util/format';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -39,12 +43,9 @@ class Main extends Component {
   };
 
   handleAddProduct = product => {
-    const { dispatch } = this.props;
+    const { addToCart } = this.props;
 
-    dispatch({
-      type: 'ADD_TO_CART',
-      product,
-    });
+    addToCart(product);
   };
 
   renderProduct = ({ item }) => {
@@ -81,4 +82,8 @@ class Main extends Component {
   }
 }
 
-export default connect()(Main);
+// converte actions do redux em propriedades do componente
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(CartActions, dispatch);
+
+export default connect(null, mapDispatchToProps)(Main);
