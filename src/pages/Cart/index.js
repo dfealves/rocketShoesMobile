@@ -29,7 +29,7 @@ import {
   EmptyText,
 } from './styles';
 
-function Cart({ cart, navigation, products, total }) {
+function Cart({ cart, dispatch, navigation, products, total }) {
   function decrement(product) {
     updateAmountRequest(product.id, product.amount - 1);
   }
@@ -44,7 +44,7 @@ function Cart({ cart, navigation, products, total }) {
       <>
         <Products>
           {cart.map(product => (
-            <Product>
+            <Product key={product.id}>
               <ProductInfo>
                 <ProductImage
                   source={{
@@ -52,10 +52,14 @@ function Cart({ cart, navigation, products, total }) {
                   }}
                 />
                 <ProductDetails>
-                  <ProductTitle>product.title</ProductTitle>
-                  <ProductPrice>product.priceFormatted</ProductPrice>
+                  <ProductTitle>{product.title}</ProductTitle>
+                  <ProductPrice>{product.priceFormatted}</ProductPrice>
                 </ProductDetails>
-                <ProductDelete onPress={() => removeFromCart(product.id)}>
+                <ProductDelete
+                  onPress={() =>
+                    dispatch({ type: 'REMOVE_FROM_CART', id: product.id })
+                  }
+                >
                   <Icon
                     name="delete-forever"
                     size={24}
@@ -71,7 +75,7 @@ function Cart({ cart, navigation, products, total }) {
                     color={colors.primary}
                   />
                 </ProductControlButton>
-                <ProductAmount>3</ProductAmount>
+                <ProductAmount>{product.amount}</ProductAmount>
                 <ProductControlButton onPress={() => increment(product)}>
                   <Icon
                     name="add-circle-outline"
@@ -84,6 +88,7 @@ function Cart({ cart, navigation, products, total }) {
             </Product>
           ))}
         </Products>
+
         <TotalContainer>
           <TotalText>TOTAL</TotalText>
           <TotalAmount>R$999,999</TotalAmount>

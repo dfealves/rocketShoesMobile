@@ -3,18 +3,15 @@ import colors from '../../styles/colors';
 
 import logo from '../../assets/images/Logo.png';
 
-export const Wrapper = styled.SafeAreaView`
+export const Container = styled.View`
   flex: 0;
   background: ${colors.dark};
   flex-direction: row;
+  padding: 25px;
+  justify-content: space-between;
 `;
 
-export const Container = styled.View`
-  flex-direction: row;
-  flex: 1;
-  justify-content: space-between;
-  padding: 20px;
-`;
+export const LogoContainer = styled.TouchableWithoutFeedback``;
 
 export const Logo = styled.Image.attrs({
   source: logo,
