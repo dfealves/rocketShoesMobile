@@ -103,7 +103,7 @@ export const EmptyContainer = styled.View`
   justify-content: center;
 `;
 
-export const EmptyText = styled.View`
+export const EmptyText = styled.Text`
   font-size: 24px;
   font-weight: bold;
   margin-top: 18px;
