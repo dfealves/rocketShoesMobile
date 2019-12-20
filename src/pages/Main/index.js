@@ -42,24 +42,24 @@ class Main extends Component {
     this.setState({ products: data });
   };
 
-  handleAddProduct = product => {
-    const { addToCart } = this.props;
+  handleAddProduct = id => {
+    const { addToCartRequest } = this.props;
 
-    addToCart(product);
+    addToCartRequest(id);
   };
 
   renderProduct = ({ item }) => {
-    // const { amount } = this.props;
+    const { amount } = this.props;
 
     return (
       <Product key={item.id}>
         <ProductImage source={{ uri: item.image }} />
         <ProductTitle>{item.title}</ProductTitle>
         <ProductPrice>{item.priceFormatted}</ProductPrice>
-        <AddButton onPress={() => this.handleAddProduct(item)}>
+        <AddButton onPress={() => this.handleAddProduct(item.id)}>
           <Amount>
             <Icon name="add-shopping-cart" color="#FFF" size={20} />
-            <AmountText>2</AmountText>
+            <AmountText> {amount[item.id] || 0}</AmountText>
           </Amount>
           <ButtonText>ADICIONAR</ButtonText>
         </AddButton>
@@ -82,8 +82,15 @@ class Main extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  amount: state.cart.reduce((amount, product) => {
+    amount[product.id] = product.amount;
+    return amount;
+  }, {}),
+});
+
 // converte actions do redux em propriedades do componente
 const mapDispatchToProps = dispatch =>
   bindActionCreators(CartActions, dispatch);
 
-export default connect(null, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
