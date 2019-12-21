@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import colors from '../../styles/colors';
 
-export const Container = styled.View`
+export const Container = styled.ScrollView`
   padding: 10px;
   background: #fff;
   border-radius: 4px;
@@ -69,6 +69,7 @@ export const ProductSubtotal = styled.Text`
 
 export const TotalContainer = styled.View`
   margin-top: 30px;
+  margin-bottom: 30px;
 `;
 
 export const TotalText = styled.Text`
